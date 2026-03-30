@@ -23,3 +23,19 @@ class Manager:
             if tenant.apartment not in self.apartments:
                 return False
         return True
+    
+    def get_apartment_costs(self, apartment_key, year=None, month=None, najemcy=1):
+        Koszt = 0.0
+        for bill in self.bills:
+            if apartment_key == bill.apartment:
+                if year == bill.settlement_year or not year:
+                    if month == bill.settlement_month or not month:
+                        Koszt += bill.amount_pln
+            else:
+                Koszt = None
+        if najemcy>1:
+            Koszt/=najemcy
+            Koszt=round(Koszt)
+        elif najemcy<1:
+            Koszt = None
+        return Koszt
